@@ -9,11 +9,12 @@ filters.websiteFilter = (string) => {
 }
 
 filters.allWordFilter = (string, storageObj) => {
-  var trimmed = string.replace(/(\.|!|\?|\/|\(|\)|:|;|=|-|'|"|\[|\]|<|>|_|,\{\})/gm, "");
-  if (storageObj[trimmed]) {
-    storageObj[trimmed]++;
+  var trimmed = string.replace(/(\.|!|\?|\/|\(|\)|:|;|=|-|'|"|\[|\]|<|>|_|,\{\}\|@)/gm, "");
+  var lowerTrim = trimmed.toLowerCase();
+  if (storageObj[lowerTrim]) {
+    storageObj[lowerTrim]++;
   } else {
-    storageObj[trimmed] = 1;
+    storageObj[lowerTrim] = 1;
   }
 }
 

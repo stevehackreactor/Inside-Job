@@ -3,9 +3,25 @@ const puppeteer = require('puppeteer');
 const cors = require('cors');
 const fs = require('fs');
 const filters = require('./filterAlgos.js');
+const mongoose = require('mongoose');
+
+const whiteList = require('./schemas/whitelist.js');
+const blackList = require('./schemas/blacklist.js');
+
 
 const app = express()
 const port = 3003;
+
+mongoose.connect('mongodb://localhost:27017/insideJob', {useNewUrlParser: true, useUnifiedTopology: true});
+
+const db = mongoose.connection;
+db.on('error', console.log.bind(console, 'connection error:'));
+db.once('open', () => {
+  // connected
+})
+
+const WListItem = mongoose.model('WListItem', whiteList);
+const BListItem = mongoose.model('BListItem', blackList);
 
 app.use(cors());
 app.use(express.json());
@@ -13,6 +29,34 @@ app.use(express.urlencoded({extended: true}));
 
 // need to get our filters functions into the app.post
 
+
+app.post('/updatewhitelist/', (req, res) => {
+  console.log(req.body)
+  for (var key in req.body.whiteListItems) {
+    let word = new WListItem({ word: key});
+    word.save((err) => {
+      if (err) {
+        return console.error(err)
+      }
+    })
+  }
+  // for each item, create a new WListItem and save it to the db
+  res.send('successfully updated');
+})
+
+app.post('/updateblacklist/', (req, res) => {
+  console.log(req.body)
+  for (var key in req.body.blackListItems) {
+    let word = new BListItem({ word: key});
+    word.save((err) => {
+      if (err) {
+        return console.error(err)
+      }
+    })
+  }
+  // for each item, create a new WListItem and save it to the db
+  res.send('successfully updated');
+})
 
 app.post('/', (req, res) => {
   // req.body is the {site: 'url'} obj
