@@ -24,6 +24,20 @@
   margin-right: 35px;
 }
 
+/* Word Button ===================================================================== */
+
+.word-button {
+  transition-duration: .5s;
+  margin: 5px;
+}
+.word-button:hover {
+  background-color: green;
+}
+.hidden {
+  visibility: hidden;
+}
+
+
 .App-link {
   color: #61dafb;
 }

@@ -9,7 +9,7 @@ filters.websiteFilter = (string) => {
 }
 
 filters.allWordFilter = (string, storageObj) => {
-  var trimmed = string.replace(/(\.|!|\?|\/|\(|\)|:|;|=|-|'|"|\[|\]|<|>|_|,)/gm, "");
+  var trimmed = string.replace(/(\.|!|\?|\/|\(|\)|:|;|=|-|'|"|\[|\]|<|>|_|,\{\})/gm, "");
   if (storageObj[trimmed]) {
     storageObj[trimmed]++;
   } else {

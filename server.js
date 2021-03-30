@@ -47,20 +47,20 @@ app.post('/', (req, res) => {
               sites: nextSites
             };
           })
-          await fs.appendFile(`./job-files/${req.body.job}.txt`, textContent.text, (err) => {
-            if (err) {
-              console.log('error: ', err);
-            } else {
-              console.log('Saved!');
-            }
-          });
-          await fs.appendFile(`./job-files/${req.body.job}.sites.txt`, textContent.sites[0], (err) => {
-            if (err) {
-              console.log('error: ', err);
-            } else {
-              console.log('Saved!');
-            }
-          });
+          // await fs.appendFile(`./job-files/${req.body.job}.txt`, textContent.text, (err) => {
+          //   if (err) {
+          //     console.log('error: ', err);
+          //   } else {
+          //     console.log('Saved!');
+          //   }
+          // });
+          // await fs.appendFile(`./job-files/${req.body.job}.sites.txt`, textContent.sites[0], (err) => {
+          //   if (err) {
+          //     console.log('error: ', err);
+          //   } else {
+          //     console.log('Saved!');
+          //   }
+          // });
           // res.json(textContent);
 
           await browser.close();
