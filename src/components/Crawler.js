@@ -1,12 +1,23 @@
+import { useState } from 'react';
+import WordsList from './WordsList';
 const axios = require('axios');
-// const fs = require('fs');
 
-const Crawler = ({ site }) => {
+
+const Crawler = ({ site, job }) => {
+
+
+  const [parsedWords, setParsedWords] = useState({});
 
   const crawl = () => {
-    axios.post('localhost:3003/')
+    axios.post(`http://localhost:3003`, {
+      site: site,
+      job: job
+    })
       .then((response) => {
-
+        console.log('response in front end allwords: ', response.data.text)
+        console.log('response in front end sites: ', response.data.sites)
+        console.log('response in front end sorted: ', response.data.sorted)
+        setParsedWords(response.data.sorted);
       })
       .catch((err) => {
         console.log('error: ', err);
@@ -14,25 +25,11 @@ const Crawler = ({ site }) => {
   };
 
   return (
-    <div>
-      <button onClick={ crawl }>Crawl</button>
+    <div id="crawl-button">
+      <button onClick={ crawl }>Get Deets</button>
+      <WordsList parsedWords={ parsedWords }/>
     </div>
   )
 }
 
 export default Crawler;
-
-// request(site, (error, response, body) => {
-//   if (error) {
-//     console.log('error: ', error);
-//   }
-//   console.log('Status code: ', response.statusCode);
-
-//   // console.log('body: ', body);
-//   var $ = cheerio.load(body);
-
-//   $('div').each(( index ) => {
-//     var $html = $(this).html();
-//     console.log($html);
-//   })
-// })
