@@ -5,7 +5,6 @@ const fs = require('fs');
 const filters = require('./filterAlgos.js');
 const mongoose = require('mongoose');
 const keyWords = require('./assets/atsKeywords.js');
-// console.log(keyWords.ATSKeywords);
 
 const whiteList = require('./schemas/whitelist.js');
 const blackList = require('./schemas/blacklist.js');
@@ -28,8 +27,6 @@ const BListItem = mongoose.model('BListItem', blackList);
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
-
-// need to get our filters functions into the app.post
 
 app.get('/blacklist/', (req, res) => {
   BListItem.find((err, blistitems) => {
@@ -72,12 +69,16 @@ app.post('/updateblacklist/', (req, res) => {
 // keyWords.ATSKeywords = keyWords.ATSKeywords.bind(keyWords);
 
 app.post('/', (req, res) => {
-  // req.body is the {site: 'url'} obj
-  console.log(req.body);
   var words = (async() => {
       const browser = await puppeteer.launch();
       const page = await browser.newPage();
       await page.goto(req.body.site);
+
+      const urlContent = await page.$$eval('a', (array) => {
+        return array.map((el) => {
+          return el.href;
+        });
+      })
 
       const textContent = await page.evaluate(() => {
 
@@ -105,6 +106,8 @@ app.post('/', (req, res) => {
               sites: nextSites
             };
           })
+
+
           // await fs.appendFile(`./job-files/${req.body.job}.txt`, textContent.text, (err) => {
           //   if (err) {
           //     console.log('error: ', err);
@@ -123,26 +126,26 @@ app.post('/', (req, res) => {
 
           await browser.close();
 
-          return textContent;
+          return [textContent, urlContent];
         })();
         Promise.resolve(words)
         .then((value) => {
           let foundKeywords = [];
-
-
           keyWords.ATSKeywords.forEach((keyword) => {
-            if (value.text.indexOf(keyword) > -1) {
+            if (value[0].text.indexOf(keyword) > -1) {
               foundKeywords.push(keyword);
             }
           })
 
           let wordSort = {};
-          value.text.split(' ').forEach((word) => {
+          value[0].text.split(' ').forEach((word) => {
             filters.allWordFilter(word, wordSort);
           })
-          value.foundKeywords = foundKeywords;
-          value.sorted = wordSort;
-          res.json(value)
+
+          value[0].foundKeywords = foundKeywords;
+          value[0].sorted = wordSort;
+          value[0].hrefs = value[1];
+          res.json(value[0])
         })
 })
 

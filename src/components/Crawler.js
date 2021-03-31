@@ -12,8 +12,11 @@ const Crawler = ({ site, job, bList }) => {
   const [generating, setGenerating] = useState(false);
   const [relatedSites, setRelatedSites] = useState([]);
   const [commonWords, setCommonWords] = useState({});
+  const [loading, setLoading] = useState(false);
 
   const crawl = () => {
+    setLoading(true);
+
     axios.post(`http://localhost:3003`, {
       site: site,
       job: job
@@ -23,12 +26,13 @@ const Crawler = ({ site, job, bList }) => {
         console.log('response in front end sites: ', response.data.sites)
         console.log('response in front end sorted: ', response.data.sorted)
         console.log('response in front foundkeywords: ', response.data.foundKeywords)
+        console.log('response in front hrefs: ', response.data.hrefs)
         setFoundKeywords(response.data.foundKeywords);
         setParsedWords(response.data.sorted);
-        setRelatedSites(response.data.sites);
+        setRelatedSites(response.data.hrefs);
         setCommonWords(response.data.sorted);
-
         setGenerating(true);
+        setLoading(false);
       })
       .catch((err) => {
         console.log('error: ', err);
@@ -41,6 +45,11 @@ const Crawler = ({ site, job, bList }) => {
       <WordsList
         parsedWords={ parsedWords }
         bList={ bList } />
+      <img
+        className={ loading ? '' : 'hidden'}
+        src="https://media.giphy.com/media/52qtwCtj9OLTi/giphy.gif"
+        alt="loading icon">
+      </img>
       <Report
         generating={ generating }
         foundKeywords={ foundKeywords }

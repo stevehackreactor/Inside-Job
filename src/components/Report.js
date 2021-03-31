@@ -20,7 +20,7 @@ const Report = ({ foundKeywords, generating, relatedSites, commonWords, job, sit
         <lh className="list-head">External Links</lh>
         {relatedSites.map((site, index) => {
           return (
-            <li key={ index }>{site}</li>
+            <li key={ index }><a href={ site } target="_blank" rel="noreferrer noopener">{site}</a></li>
           )
         })}
       </ul>
