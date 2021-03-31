@@ -4,6 +4,8 @@ const cors = require('cors');
 const fs = require('fs');
 const filters = require('./filterAlgos.js');
 const mongoose = require('mongoose');
+const keyWords = require('./assets/atsKeywords.js');
+// console.log(keyWords.ATSKeywords);
 
 const whiteList = require('./schemas/whitelist.js');
 const blackList = require('./schemas/blacklist.js');
@@ -29,6 +31,15 @@ app.use(express.urlencoded({extended: true}));
 
 // need to get our filters functions into the app.post
 
+app.get('/blacklist/', (req, res) => {
+  BListItem.find((err, blistitems) => {
+    if (err) {
+      res.sendStatus(500).send('error', err);
+    } else {
+      res.json(blistitems);
+    }
+  })
+})
 
 app.post('/updatewhitelist/', (req, res) => {
   console.log(req.body)
@@ -58,6 +69,8 @@ app.post('/updateblacklist/', (req, res) => {
   res.send('successfully updated');
 })
 
+// keyWords.ATSKeywords = keyWords.ATSKeywords.bind(keyWords);
+
 app.post('/', (req, res) => {
   // req.body is the {site: 'url'} obj
   console.log(req.body);
@@ -78,6 +91,7 @@ app.post('/', (req, res) => {
 
 
         var capturedText = document.querySelector('body').textContent;
+
         capturedText = capturedText.replace(/(\r\n|\n|\r)/gm, " ");
         var filtered = capturedText.split(' ');
         var nextSites = [];
@@ -113,10 +127,20 @@ app.post('/', (req, res) => {
         })();
         Promise.resolve(words)
         .then((value) => {
+          let foundKeywords = [];
+
+
+          keyWords.ATSKeywords.forEach((keyword) => {
+            if (value.text.indexOf(keyword) > -1) {
+              foundKeywords.push(keyword);
+            }
+          })
+
           let wordSort = {};
           value.text.split(' ').forEach((word) => {
             filters.allWordFilter(word, wordSort);
           })
+          value.foundKeywords = foundKeywords;
           value.sorted = wordSort;
           res.json(value)
         })

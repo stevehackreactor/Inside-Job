@@ -1,14 +1,14 @@
 import { useState } from 'react';
 const axios = require('axios');
 
-const WordsList = ({ parsedWords }) => {
+const WordsList = ({ parsedWords, bList }) => {
 
   var [hiddenWords, setHiddenWords] = useState({});
 
   let buttonTuples = [];
 
   for (var key in parsedWords) {
-    if (key !== '') {
+    if (key !== '' && !bList[key]) {
       buttonTuples.push([key, parsedWords[key]]);
     }
   }
@@ -58,7 +58,7 @@ const WordsList = ({ parsedWords }) => {
 
   return (
     <div>
-      <button id="update-ignored-words" onClick={ updateIgnoredWords }>Update Ignored Words</button>
+      {/* <button id="update-ignored-words" onClick={ updateIgnoredWords }>Update Ignored Words</button>
       {buttonTuples.map((buttonInfo, index) => {
         return (
           <button
@@ -67,7 +67,7 @@ const WordsList = ({ parsedWords }) => {
             className="word-button">{ buttonInfo[0] } : { buttonInfo[1] }
           </button>
         );
-      })}
+      })} */}
     </div>
   );
 }

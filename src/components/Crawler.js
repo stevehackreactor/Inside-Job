@@ -1,12 +1,17 @@
 import { useState } from 'react';
 import WordsList from './WordsList';
+import Report from './Report';
 const axios = require('axios');
 
 
-const Crawler = ({ site, job }) => {
+const Crawler = ({ site, job, bList }) => {
 
 
   const [parsedWords, setParsedWords] = useState({});
+  const [foundKeywords, setFoundKeywords] = useState([])
+  const [generating, setGenerating] = useState(false);
+  const [relatedSites, setRelatedSites] = useState([]);
+  const [commonWords, setCommonWords] = useState({});
 
   const crawl = () => {
     axios.post(`http://localhost:3003`, {
@@ -17,7 +22,13 @@ const Crawler = ({ site, job }) => {
         console.log('response in front end allwords: ', response.data.text)
         console.log('response in front end sites: ', response.data.sites)
         console.log('response in front end sorted: ', response.data.sorted)
+        console.log('response in front foundkeywords: ', response.data.foundKeywords)
+        setFoundKeywords(response.data.foundKeywords);
         setParsedWords(response.data.sorted);
+        setRelatedSites(response.data.sites);
+        setCommonWords(response.data.sorted);
+
+        setGenerating(true);
       })
       .catch((err) => {
         console.log('error: ', err);
@@ -27,7 +38,16 @@ const Crawler = ({ site, job }) => {
   return (
     <div id="crawl-button">
       <button onClick={ crawl }>Get Deets</button>
-      <WordsList parsedWords={ parsedWords }/>
+      <WordsList
+        parsedWords={ parsedWords }
+        bList={ bList } />
+      <Report
+        generating={ generating }
+        foundKeywords={ foundKeywords }
+        relatedSites={ relatedSites }
+        commonWords={ commonWords }
+        job={ job }
+        siteLink={ site } />
     </div>
   )
 }

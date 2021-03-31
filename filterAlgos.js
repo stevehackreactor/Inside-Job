@@ -9,12 +9,17 @@ filters.websiteFilter = (string) => {
 }
 
 filters.allWordFilter = (string, storageObj) => {
-  var trimmed = string.replace(/(\.|!|\?|\/|\(|\)|:|;|=|-|'|"|\[|\]|<|>|_|,\{\}\|@)/gm, "");
+  var trimmed = string.replace(/(\.|!|\?|\/|\(|\)|:|;|=|'|"|\[|\]|<|>|_|,|\{|\}|\||@)/gm, "");
   var lowerTrim = trimmed.toLowerCase();
-  if (storageObj[lowerTrim]) {
-    storageObj[lowerTrim]++;
-  } else {
-    storageObj[lowerTrim] = 1;
+  // filter for words with numbers in them
+  // filter with words that are longer
+  //
+  if (lowerTrim.length < 15) {
+    if (storageObj[lowerTrim]) {
+      storageObj[lowerTrim]++;
+    } else {
+      storageObj[lowerTrim] = 1;
+    }
   }
 }
 

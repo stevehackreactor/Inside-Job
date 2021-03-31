@@ -16,7 +16,7 @@
 }
 
 #crawl-meta {
-  margin-top: 400px;
+  margin-top: 200px;
 }
 
 #crawl-location {
@@ -37,6 +37,24 @@
 .word-button:hover {
   background-color: green;
 }
+
+/* Report ===================================================================== */
+.report {
+  margin-top: 20px;
+  width: 40%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  border: 2px solid black;
+  overflow: scroll;
+}
+
+.list-head {
+  line-height: 50px;
+  text-decoration: underline;
+  font-size: larger;
+}
+
 .hidden {
   visibility: hidden;
 }
