@@ -19,7 +19,6 @@ function App() {
     axios
       .get('http://localhost:3003/blacklist/')
       .then((response) => {
-        console.log('initial blist find: ', response.data);
         let newBList = {};
         response.data.forEach((word) => {
           newBList[word.word] = true;
@@ -30,6 +29,18 @@ function App() {
 
   return (
     <div className="App">
+      <h1 id="main-title">
+        <span>I</span>
+        <span>N</span>
+        <span>S</span>
+        <span>I</span>
+        <span>D</span>
+        <span>E</span>
+        <span>-</span>
+        <span>J</span>
+        <span>O</span>
+        <span>B</span>
+        </h1>
       <div id="crawl-meta">
         <textarea
           id="crawl-location"

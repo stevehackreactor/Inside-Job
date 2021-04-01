@@ -15,6 +15,16 @@
   color: white;
 }
 
+#main-title {
+  margin-top: 200px;
+  color: orangered;
+  font-size: 220px;
+}
+
+span:hover {
+  color: black;
+}
+
 #crawl-meta {
   margin-top: 200px;
 }
@@ -41,7 +51,7 @@
 /* Report ===================================================================== */
 .report {
   margin-top: 20px;
-  width: 40%;
+  width: 60%;
   display: block;
   margin-left: auto;
   margin-right: auto;
@@ -49,10 +59,38 @@
   overflow: scroll;
 }
 
+li:hover {
+  color:orangered;
+}
+
+#wiki {
+  border: 2px solid aliceblue;
+  left: 0;
+  top : 500px;
+  position: absolute;
+  width: 280px;
+  height: 300px;
+  overflow: scroll;
+}
+
+
 .list-head {
   line-height: 50px;
   text-decoration: underline;
   font-size: larger;
+}
+
+.left-side {
+  width: 40%;
+}
+
+.right-side {
+  width: 55%;
+}
+
+.right-side, .left-side {
+  display: inline-block;
+  vertical-align: top;
 }
 
 .hidden {

@@ -1,7 +1,7 @@
 const express = require('express');
 const puppeteer = require('puppeteer');
 const cors = require('cors');
-const fs = require('fs');
+// const fs = require('fs');
 const filters = require('./filterAlgos.js');
 const mongoose = require('mongoose');
 const keyWords = require('./assets/atsKeywords.js');
@@ -48,7 +48,6 @@ app.post('/updatewhitelist/', (req, res) => {
       }
     })
   }
-  // for each item, create a new WListItem and save it to the db
   res.send('successfully updated');
 })
 
@@ -62,11 +61,34 @@ app.post('/updateblacklist/', (req, res) => {
       }
     })
   }
-  // for each item, create a new WListItem and save it to the db
   res.send('successfully updated');
 })
 
-// keyWords.ATSKeywords = keyWords.ATSKeywords.bind(keyWords);
+app.post('/wiki/', (req, res) => {
+  var wikiDef = (async() => {
+    console.log(req.body.site);
+    const browser = await puppeteer.launch();
+    const page = await browser.newPage();
+    await page.goto(`https://en.wikipedia.org/wiki/${req.body.site}`);
+
+    const textContent = await page.evaluate(() => {
+
+      var capturedText = document.querySelector('#mw-content-text').textContent;
+
+      capturedText = capturedText.replace(/(\r\n|\n|\r)/gm, " ");
+        return {
+            wikiDef: capturedText
+          };
+        })
+        await browser.close();
+
+        return textContent;
+      })();
+      Promise.resolve(wikiDef)
+        .then((def) => {
+          res.json(def);
+        })
+})
 
 app.post('/', (req, res) => {
   var words = (async() => {
@@ -76,7 +98,12 @@ app.post('/', (req, res) => {
 
       const urlContent = await page.$$eval('a', (array) => {
         return array.map((el) => {
-          return el.href;
+          let suffix = el.href.slice(-3);
+          let ignore = ['img', 'png', 'svg', 'mp3', 'mp4', 'zip'];
+          if (ignore.indexOf(suffix) === -1) {
+            return el.href;
+          }
+          return null;
         });
       })
 
@@ -107,7 +134,7 @@ app.post('/', (req, res) => {
             };
           })
 
-
+          // would use this or db storage for memoizing requests later
           // await fs.appendFile(`./job-files/${req.body.job}.txt`, textContent.text, (err) => {
           //   if (err) {
           //     console.log('error: ', err);
