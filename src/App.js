@@ -1,5 +1,6 @@
 import './App.css';
 import Crawler from './components/Crawler.js';
+import Sidebar from './components/Sidebar.js';
 import { useState, useEffect } from 'react';
 const axios = require('axios');
 
@@ -36,7 +37,8 @@ function App() {
       <h1 id="main-title">
         {titleWord.map(letter => <span>{letter}</span>
         )}
-        </h1>
+      </h1>
+      <Sidebar />
       <div id="crawl-meta">
         <textarea
           id="crawl-location"
