@@ -1,13 +1,19 @@
 const express = require('express');
 const puppeteer = require('puppeteer');
 const cors = require('cors');
-// const fs = require('fs');
+const axios = require('axios');
 const filters = require('./filterAlgos.js');
 const mongoose = require('mongoose');
 const keyWords = require('./assets/atsKeywords.js');
 
 const whiteList = require('./schemas/whitelist.js');
 const blackList = require('./schemas/blacklist.js');
+
+const passport = require('passport');
+const cookieSession = require('cookie-session')
+const bodyParser = require('body-parser');
+
+require('./passport.setup.js');
 
 
 const app = express()
@@ -24,9 +30,28 @@ db.once('open', () => {
 const WListItem = mongoose.model('WListItem', whiteList);
 const BListItem = mongoose.model('BListItem', blackList);
 
+// Create custom middleware and add this middleware to all authenticated routes
+const isLoggedIn = (req, res, next) => {
+	if (req.session && req.session.passport && req.session.passport.user) {
+		next();
+	} else {
+		res.sendStatus(401);
+	}
+}
+
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
+app.use(bodyParser.json());
+
+// ======================Google Oauth2.0+++++++++++++++++++++++++++++++
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(cookieSession({
+  name: 'blueberry-session',
+  keys: ['key1', 'key2']
+}))
+// ======================Google Oauth2.0+++++++++++++++++++++++++++++++
 
 app.get('/blacklist/', (req, res) => {
   BListItem.find((err, blistitems) => {
@@ -90,6 +115,45 @@ app.post('/wiki/', (req, res) => {
         })
 })
 
+app.get('/calendars', (req, res) => {
+  axios
+    .get('https://www.googleapis.com/calendar/v3/users/me/calendarList')
+    .then((response) => {
+      console.log(response);
+      res.send(response);
+    })
+})
+
+// ======================Google Oauth2.0+++++++++++++++++++++++++++++++
+app.get('/auth/google',
+  passport.authenticate('google', { scope: ['profile', 'email', 'openid', 'https://www.googleapis.com/auth/calendar.events', 'https://www.googleapis.com/auth/calendar.events.readonly', 'https://www.googleapis.com/auth/calendar.readonly'] })); // here we would add all the scopes we are looking to gain access too. See docs for further information.
+
+app.get('/failed', (req, res) => {
+  res.send('failed to login');
+})
+
+app.get('/success', isLoggedIn, (req, res) => {
+  console.log('blueberry session: ', req.session.passport.user);
+
+  res.send(`successful login: ${req.session}`);
+})
+
+app.get('/auth/google/callback',
+passport.authenticate('google', { failureRedirect: '/failed' }), function(req, res) {
+  // Successful authentication, redirect home.
+  // console.log('inauth callback', req.query)
+  console.log('req.user: ', req.user)
+  res.session = req.user;
+  res.redirect('/success');
+});
+
+app.get('/logout', (req, res) => {
+	req.session = null;
+	req.logout();
+	res.send('you are now logged out');
+})
+// ======================Google Oauth2.0+++++++++++++++++++++++++++++++
+
 app.post('/', (req, res) => {
   var words = (async() => {
       const browser = await puppeteer.launch();
@@ -133,24 +197,6 @@ app.post('/', (req, res) => {
               sites: nextSites
             };
           })
-
-          // would use this or db storage for memoizing requests later
-          // await fs.appendFile(`./job-files/${req.body.job}.txt`, textContent.text, (err) => {
-          //   if (err) {
-          //     console.log('error: ', err);
-          //   } else {
-          //     console.log('Saved!');
-          //   }
-          // });
-          // await fs.appendFile(`./job-files/${req.body.job}.sites.txt`, textContent.sites[0], (err) => {
-          //   if (err) {
-          //     console.log('error: ', err);
-          //   } else {
-          //     console.log('Saved!');
-          //   }
-          // });
-          // res.json(textContent);
-
           await browser.close();
 
           return [textContent, urlContent];
