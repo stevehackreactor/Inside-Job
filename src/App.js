@@ -1,5 +1,6 @@
 import './App.css';
 import Crawler from './components/Crawler.js';
+import Sidebar from './components/Sidebar.js';
 import { useState, useEffect } from 'react';
 const axios = require('axios');
 
@@ -12,9 +13,11 @@ function App() {
   const handleSiteChange = (e) => {
     setSite(e.target.value);
   }
+
   const handleJobChange = (e) => {
     setJob(e.target.value);
   }
+
   useEffect(() => {
     axios
       .get('http://localhost:3003/blacklist/')
@@ -27,20 +30,15 @@ function App() {
       })
   },[])
 
+  const titleWord = 'INSIDE-JOB'.split('');
+
   return (
     <div className="App">
       <h1 id="main-title">
-        <span>I</span>
-        <span>N</span>
-        <span>S</span>
-        <span>I</span>
-        <span>D</span>
-        <span>E</span>
-        <span>-</span>
-        <span>J</span>
-        <span>O</span>
-        <span>B</span>
-        </h1>
+        {titleWord.map(letter => <span>{letter}</span>
+        )}
+      </h1>
+      <Sidebar />
       <div id="crawl-meta">
         <textarea
           id="crawl-location"
@@ -50,7 +48,7 @@ function App() {
         <textarea
           id="crawl-job"
           onChange={ handleJobChange }
-          placeholder="JobName(nospaces)">
+          placeholder="Job Name">
         </textarea>
         <Crawler
           site={ site }

@@ -22,11 +22,6 @@ const Crawler = ({ site, job, bList }) => {
       job: job
     })
       .then((response) => {
-        // console.log('response in front end allwords: ', response.data.text)
-        // console.log('response in front end sites: ', response.data.sites)
-        // console.log('response in front end sorted: ', response.data.sorted)
-        // console.log('response in front foundkeywords: ', response.data.foundKeywords)
-        // console.log('response in front hrefs: ', response.data.hrefs)
         setFoundKeywords(response.data.foundKeywords);
         setParsedWords(response.data.sorted);
         setRelatedSites(response.data.hrefs);
