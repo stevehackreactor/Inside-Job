@@ -6,11 +6,12 @@
 2. [User-Stories](#User-Stories)
 3. [Stack](#Stack)
 4. [Front-End](#Front-End)
-5. [Deployment](#Deployment)
-6. [Work-Flow](#Work-Flow)
-7. [Lessons-Learned](#Lessons-Learned)
-8. [Contributors](#Contributors)
-9. [Installation](#Installation)
+5. [Back-End](#Back-End)
+6. [Deployment](#Deployment)
+7. [Work-Flow](#Work-Flow)
+8. [Lessons-Learned](#Lessons-Learned)
+9. [Contributors](#Contributors)
+
 
 ## In-Action
 
@@ -35,6 +36,7 @@ Here are some of the User Stories I used for direction on this project:
 - As a user, I would like to save reports from a particular domain so I can look the same report up more quickly subsequent times.
 - As a user, I want to be able to access this site from the web without downloading the repo.
 - As a user, I would like to have subsequent crawling requests to remove the previous report and run a fresh report.
+- As a user, I would like the option to have a dark mode.
 
 ## Stack
 
@@ -67,40 +69,48 @@ Here are some of the User Stories I used for direction on this project:
 
 ## Front-End
 
-- We designed our website to have a fun, primary color scheme which catches the eye and stands out from the crowd.
-- We developed smooth transitions between different views and products resulting in an enjoyable, and consistent user experience. Similar to modern social media sites, we designed our site to be composed of many small, modular components.
-- Whether it be buttons, reveiw ratings, or thumbnail components, re-usability was a primary focus and contributes to the scalability of Pop Shop
+- Since the primary visual feature of this Web App is the report generated after running the crawler/scraper, I wanted a visually simple UI. Reports are generally written black on white and this is what I stuck to.
+- I also took a Brand-Forward approach to the landing experience. This presents well on searches and thumbnails.
+- Several simple React components and minimal CSS styling was used.
+
+## Back-End
+
+- The back end was build in a Nodejs environment using Express
+- Puppeteer ran on the server-side for all headless browsing
+- All filtering algorithms were also performed server side to reduce the burden on the client
+- MongoDB was selected as the DB. The size and number of fields of each report varied greatly which is why I believe a non-relational db was a better fit for storage of information.
+
 
 ## Deployment
 
-This site is currently being dockerized for deployment to an AWS EC2 instance.
+This site is currently being rewritten in Typescript prior to deployment. Plans for deployment are to use Heroku or an EC2 instance on AWS.
 
 ## Work-Flow
 
 ## Git Workflow
 ![Gif showing Git History](https://thumbs.gfycat.com/GrippingLazyGannet-size_restricted.gif)
 
-We have one main branch that branches out to staging. Our staging branch is where we merge our features until we have a batch of tested, functioning features in staging at which point we will merge staging to main.
+This project was built in one day by just myself. There are two branches, the main and a Typescript branch where I am working on rewriting the app in Typescipt.
 
 ## Lessons-Learned
-This project is the result of four, ambitous software engineers all eager to create a viable product and learn from the experience. As hungry developers, we learned a lot throughout this process. Here is some of what we learned:
+This project is the result of a fun idea and almost no planning and thrown together in 24 hours. Needless to say, there are many things I learned and plan on changin for future iterations of this project. Here is some of what we learned:
 
 ## Challenges
-- Each of us selected new technologies to use during this project. Among them, React Hooks, Material UI, Bootstrap, and JCarousel. We gained insight on assessing new technologies prior to using them in addition to practical experience with these libraries.
-- Creating the various carousels on the site led us towards the JCarousel library which is a JQuery plug-in. Unfortunately, the use of JQuery caused some longer load times than we wanted on our site. Currently we are writing our own carousel library in order to avoid having to use JQuery as a library.
-- Whilst working on this project, we used CSS for styling beyond standard Bootstrap and Material UI styles. Although we adhered to our agreed upon naming conventions for components and styles related to those components, we did end up running into some styling collisions. To fix this, we plan on using individual stylesheets for each component. Alternatively, we could use Tailwind.
+- This was my first project using Headless browsing. Initially, I attempted to use a library called cheerio. This library is able to perform headless browsing to websites and from there I was able to scrape the info I was interested in. Except, cheerio did not allow me to interact with dynamically loaded content whatsoever. So, for almost all sites, I was left with almost nothing except the most basic static information. Not at all what I wanted.
+- While trying to create a PDF download option for the user, I struggled to get the PDF correctly rendered in the print window. The particular PDF printing library I was using also had very little support.
+- Runtime, writing algorithms to filter huge amounts of language and hrefs for specific combinations of words or domains takes time. Lots of time.
 
 ## Learnings
-- The importance of start-of-project planning was very apparent by day 3 of this project when our file structure began to gain complexity. Naming, file structure, and library use conventions had not been a part of our initial planning portion of this project.  It will definitely be a big part of the day 1 planning process for each of us from now on.
-- Time-Boxing became more and more important as we began to travel into uncharted territory. Being unable to decisively predict the time to implement some feature created speedbumps in our development process.
-- After reflecting on this, our team decided to make hard cutoffs for certain functionality/features that were not a part of the core functionality of the site in order to keep us on track for our deadline.
+- After deciding Cheerio was not the way to get the information I wanted from websites, I looked into Puppeteer. Puppeteer allows for headless browsing of dynamically loaded content. Bingo! Just what I wanted.
+- Although I didn't have time in my initial window of opportunity, I would like to switch from using htmltopdf to using Puppeteer's PDF creation API. I believe it will allow me to more accurately capture the portion of the generated report that I am interested in.
+- Writing Dynamic Programming versions of the filtering algorithms are one way to save significant amounts of time when it comes to scraping and presenting information.
 
 ## Potential Improvements
-- Make this page a multi-page site using React Router. Enabling the user to navigate between products via the back and forward buttons on their browser.
-- Create a log in functionality.
-- Store user's cart information in a visually available location
-- Improve accessibility of the page by following accessibility guidelines in lighthouse
-- Continue to build out unit tests, end-to-end testing, and CCID testing.
+- Rewrite file in TS
+- Memoize requests as these operations are expensive and storing the reports in a DB would be simple and take up minimal space
+- Add a dark mode
+- Running subsequent requests should clear out the data from the previous request
+- Allow users to sign in and view all the reports they recently ran
 
 ## Contributors
 
