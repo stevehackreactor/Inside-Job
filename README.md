@@ -1,4 +1,4 @@
-# Pop Shop - Sleek and Functional e-Commerce Product Page
+# Inside-Job: your connection to the values and technologies of a future employer
 
 ## Table of Contents
 
@@ -14,34 +14,27 @@
 
 ## In-Action
 
-![Demo of Product Overview](https://thumbs.gfycat.com/NarrowHelplessArgentineruddyduck-size_restricted.gif)
+![Demo of Inside Job]()
 
 ## User-Stories
-We worked with a lot of feedback at every stage of this project, here are the user stories we decided to explore:
+Here are some of the User Stories I used for direction on this project:
 
 ## Implemented
-- As a user, I want a fun, colourful ui.
-- As a user, I want to be able to see a rating for the currently selected item at the top of the page.
-- As a user, I want to be able to see the name, style, price, features, and description of the product without scrolling down.
-- As a user, I want to be able to make a post about the product to a variety of social media platforms.
-- As a user, I want to be able to see previews of other styles of the selected product.
-- As a user, I want to be able to see a variety of images for the selected product with a variety of views/zooms.
-- As a user, I want to be able to add items to my cart after selecting the style, size, and quantity and I want these items to stay in my cart in between sessions.
-
-- As a user, I want to be able to view related items to my currently selected item.
-- As a user, I want to be able to add multiple items to a list that represents an outfit.
-
-- As a user, I want to be able to view questions and answers posted by other users related to my currently selected item.
-- As a user, I want to be able to ask questions and post answers which are viewable by other users related to my currently selected item.
-
-- As a user, I want to be able to read reviews posted by other users for my currently selected product.
-- As a user, I want to be able to write reviews that can be seen by other users for my currently selected product.
-
+- As a user, I want to know what values a company has and what tech stack they talk about the most.
+- As a user, I want to quickly gather information about a potential employer.
+- As a user, I want to see the links to external sites if those sites would be useful to review (Twitter, Linkedin, Facebook).
+- As a user, I don't want to have information from other domains poluting the information that I am presented.
+- As a user, I want to be presented a straight forward report of the the information Inside-Job gets.
+- As a user, if I am not familiar with a tech or personality trait definition, I want to be able to look it up without leaving the app.
+- As a user, I want to be able save a version of the report for future reference.
+- As a user, I want some sort of visual indicator that the scraping, crawling, and analyzing is happening (if possible, distinct indicators).
+- As a user, I want to be able to define custom words/techs to ignore/include in my report.
 
 ## Coming Soon
-- As a user, I want to be able to click the back button and return to the last item I was looking at.
-- As a user, I want to be prompted to sign in once I get a certain distance into the purchasing process.
-- As a user, I want to be able to view all items that are currently on sale.
+- As a user, I would like some sort of high level analysis of the data resulting in a description of the tone, formality, and verboseness which is typical for the company.
+- As a user, I would like to save reports from a particular domain so I can look the same report up more quickly subsequent times.
+- As a user, I want to be able to access this site from the web without downloading the repo.
+- As a user, I would like to have subsequent crawling requests to remove the previous report and run a fresh report.
 
 ## Stack
 
@@ -56,14 +49,19 @@ We worked with a lot of feedback at every stage of this project, here are the us
   <tr>
     <td>Frameworks & Libraries</td>
     <td><img alt="React" src="https://img.shields.io/badge/react%20-%2320232a.svg?&style=for-the-badge&logo=react&logoColor=%2361DAFB"/>
-    <img alt="Express.js" src="https://img.shields.io/badge/express.js%20-%23404d59.svg?&style=for-the-badge"/>
-    <img alt="Bootstrap" src="https://img.shields.io/badge/-Bootstrap-%237952B3?&style=for-the-badge&logo=Bootstrap&logoColor=white"/>
-    <img alt="Material Ui" src="https://img.shields.io/badge/-Material--UI-%230081CB?&style=for-the-badge&logo=material-ui&logoColor=white"/></td>
+    <img alt="Express.js" src="https://img.shields.io/badge/express.js%20-%23404d59.svg?&style=for-the-badge"/></td>
   </tr>
   <tr>
+    <td>APIs</td>
+    <td><img alt="Puppeteer" src="https://img.shields.io/badge/-Puppeteer-%2340B5A4?&style=for-the-badge&logo=puppeteer&logoColor=%2361DAFB"/>
+  </tr>
+  <tr>
+    <td>Databases</td>
+    <td><img alt="MongoDB" src="https://img.shields.io/badge/-MongoDB-%2347A248?&style=for-the-badge&logo=MongoDB&logoColor=white"/></td>
+  </tr>
   <tr>
     <td>Testing</td>
-    <td><img alt="Jest" src="https://img.shields.io/badge/-jest-%23C21325?&style=for-the-badge&logo=jest&logoColor=white"/></td>
+    <td><img alt="TypeScript" src="https://img.shields.io/badge/-TypeScript-%233178C6?&style=for-the-badge&logo=TypeScript&logoColor=white"/></td>
   </tr>
 </table>
 
@@ -106,39 +104,4 @@ This project is the result of four, ambitous software engineers all eager to cre
 
 ## Contributors
 
-[Steve Gackstetter](https://github.com/stevehackreactor)| [Cindy Ryoo](https://github.com/cindyryoo7)| [John Cooke](https://github.com/john-cooke832)| [Matt Collins](https://github.com/matt-collins087)
-
-## Installation
-
-1. Clone the repository:
-```sh
-git clone <your_repo_link>
-```
-2. Navigate to the root directory of the repository:
-```sh
-cd FrontEndCapstone-Bears
-```
-3. If you haven't already created an individual branch, create a branch:
-```sh
-git checkout -b <your_branch_name>
-```
-4. If you have already created an individual branch, navigate to that branch:
-```sh
-git branch <your_branch_name>
-```
-5. Install dependencies:
-```sh
-npm install
-```
-6. Bundle and compile the frontend code:
-```sh
-npm run start-client
-```
-7. Open a new terminal and start the server:
-```sh
-npm run start-server
-```
-8. View the client on the browser at the following address:
-```sh
-localhost:3000
-```
+[Steve Gackstetter](https://github.com/stevehackreactor)
