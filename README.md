@@ -15,7 +15,7 @@
 
 ## In-Action
 
-![Demo of Inside Job]()
+![Demo of Inside Job](https://thumbs.gfycat.com/SphericalHoarseGangesdolphin-size_restricted.gif)
 
 ## User-Stories
 Here are some of the User Stories I used for direction on this project:
